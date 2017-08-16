@@ -14,12 +14,7 @@ public class RestClient {
 
     public static final String BASE_URL = "https://api.github.com/";
 
-//    private static final RestClient instance = new RestClient();
     private final API service;
-
-//    public static API instance() {
-//        return instance.service;
-//    }
 
     @Inject
     public RestClient() {
