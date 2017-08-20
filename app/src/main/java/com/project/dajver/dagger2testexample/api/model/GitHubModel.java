@@ -11,37 +11,15 @@ import java.util.List;
  */
 
 public class GitHubModel {
-    @SerializedName("total_count")
-    @Expose
-    private Integer totalCount;
-    @SerializedName("incomplete_results")
-    @Expose
-    private Boolean incompleteResults;
     @SerializedName("items")
     @Expose
-    private List<GithubItemModel> items = new ArrayList<>();
+    private List<GitHubItemModel> items = new ArrayList<>();
 
-    public Integer getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public Boolean getIncompleteResults() {
-        return incompleteResults;
-    }
-
-    public void setIncompleteResults(Boolean incompleteResults) {
-        this.incompleteResults = incompleteResults;
-    }
-
-    public List<GithubItemModel> getItems() {
+    public List<GitHubItemModel> getItems() {
         return items;
     }
 
-    public void setItems(List<GithubItemModel> items) {
+    public void setItems(List<GitHubItemModel> items) {
         this.items = items;
     }
 }

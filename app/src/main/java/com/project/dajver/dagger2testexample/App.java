@@ -1,32 +1,30 @@
 package com.project.dajver.dagger2testexample;
 
-import android.app.Activity;
 import android.app.Application;
 
-import com.project.dajver.dagger2testexample.components.DaggerMyApplicationComponent;
-
-import javax.inject.Inject;
-
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
+import com.project.dajver.dagger2testexample.components.AppComponent;
 
 /**
  * Created by gleb on 8/16/17.
  */
 
-public class App extends Application implements HasActivityInjector {
+public class App extends Application {
 
-    @Inject
-    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    private static AppComponent appComponent;
+    private static App app;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerMyApplicationComponent.create().inject(this);
+        app = this;
+        buildComponentGraph();
     }
 
-    @Override
-    public DispatchingAndroidInjector<Activity> activityInjector() {
-        return dispatchingAndroidInjector;
+    public static AppComponent component() {
+        return appComponent;
+    }
+
+    public static void buildComponentGraph() {
+        appComponent = AppComponent.Initializer.init(app);
     }
 }

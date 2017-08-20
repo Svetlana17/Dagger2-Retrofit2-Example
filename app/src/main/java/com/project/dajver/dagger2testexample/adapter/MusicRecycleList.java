@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.project.dajver.dagger2testexample.R;
-import com.project.dajver.dagger2testexample.api.model.GithubItemModel;
+import com.project.dajver.dagger2testexample.api.model.GitHubItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +23,13 @@ import butterknife.ButterKnife;
 
 public class MusicRecycleList extends RecyclerView.Adapter<MusicRecycleList.ViewHolder>{
 
-    private List<GithubItemModel> searchModels = new ArrayList<>();
+    private List<GitHubItemModel> searchModels = new ArrayList<>();
+    private OnItemClickListener onItemClickListener;
 
     @Inject
     public MusicRecycleList() { }
 
-    public void addAll(List<GithubItemModel> searchModels) {
+    public void addAll(List<GitHubItemModel> searchModels) {
         this.searchModels = searchModels;
     }
 
@@ -57,6 +58,20 @@ public class MusicRecycleList extends RecyclerView.Adapter<MusicRecycleList.View
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   onItemClickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

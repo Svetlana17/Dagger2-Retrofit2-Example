@@ -1,5 +1,6 @@
 package com.project.dajver.dagger2testexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,17 +10,18 @@ import android.support.v7.widget.RecyclerView;
 import com.project.dajver.dagger2testexample.adapter.MusicRecycleList;
 import com.project.dajver.dagger2testexample.api.RestClient;
 import com.project.dajver.dagger2testexample.api.model.GitHubModel;
+import com.project.dajver.dagger2testexample.api.model.imp.FetchedDataPresenterImpl;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Callback<GitHubModel> {
+public class MainActivity extends AppCompatActivity implements Callback<GitHubModel>,
+        MusicRecycleList.OnItemClickListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -28,13 +30,15 @@ public class MainActivity extends AppCompatActivity implements Callback<GitHubMo
     MusicRecycleList musicRecycleList;
     @Inject
     RestClient restClient;
+    @Inject
+    FetchedDataPresenterImpl fetchedData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        App.component().inject(this);
         recycleViewSetup(recyclerView);
 
         restClient.getService().getSearchedRepos("retrofit", 0, 100).enqueue(this);
@@ -51,12 +55,21 @@ public class MainActivity extends AppCompatActivity implements Callback<GitHubMo
     @Override
     public void onResponse(Call<GitHubModel> call, Response<GitHubModel> response) {
         GitHubModel githubModel = response.body() != null ? response.body() : new GitHubModel();
-        musicRecycleList.addAll(githubModel.getItems());
+        fetchedData.setGitHubData(githubModel);
+
+        musicRecycleList.addAll(fetchedData.getAllData());
+        musicRecycleList.setOnItemClickListener(this);
         recyclerView.setAdapter(musicRecycleList);
     }
 
     @Override
     public void onFailure(Call<GitHubModel> call, Throwable t) {
         t.printStackTrace();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        startActivity(intent);
     }
 }

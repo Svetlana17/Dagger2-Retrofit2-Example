@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by gleb on 8/16/17.
  */
 
-public class GithubItemModel {
+public class GitHubItemModel {
     @SerializedName("id")
     @Expose
     private Integer id;
