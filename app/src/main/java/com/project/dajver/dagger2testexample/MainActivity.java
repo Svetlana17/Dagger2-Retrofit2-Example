@@ -7,7 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.project.dajver.dagger2testexample.adapter.MusicRecycleList;
+import com.project.dajver.dagger2testexample.adapter.RecycleListAdapter;
 import com.project.dajver.dagger2testexample.api.RestClient;
 import com.project.dajver.dagger2testexample.api.model.GitHubModel;
 import com.project.dajver.dagger2testexample.api.model.imp.FetchedDataPresenterImpl;
@@ -23,13 +23,13 @@ import retrofit2.Response;
 import static com.project.dajver.dagger2testexample.SecondActivity.EXTRA_POSITION;
 
 public class MainActivity extends AppCompatActivity implements Callback<GitHubModel>,
-        MusicRecycleList.OnItemClickListener {
+        RecycleListAdapter.OnItemClickListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @Inject
-    MusicRecycleList musicRecycleList;
+    RecycleListAdapter recycleListAdapter;
     @Inject
     RestClient restClient;
     @Inject
@@ -39,8 +39,10 @@ public class MainActivity extends AppCompatActivity implements Callback<GitHubMo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
         App.component().inject(this);
+
         recycleViewSetup(recyclerView);
 
         restClient.getService().getSearchedRepos("retrofit", 0, 100).enqueue(this);
@@ -59,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements Callback<GitHubMo
         GitHubModel githubModel = response.body() != null ? response.body() : new GitHubModel();
         fetchedData.setGitHubData(githubModel);
 
-        musicRecycleList.addAll(fetchedData.getAllData());
-        musicRecycleList.setOnItemClickListener(this);
-        recyclerView.setAdapter(musicRecycleList);
+        recycleListAdapter.addAll(fetchedData.getAllData());
+        recycleListAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(recycleListAdapter);
     }
 
     @Override

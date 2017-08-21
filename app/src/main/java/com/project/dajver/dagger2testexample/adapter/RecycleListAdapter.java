@@ -21,27 +21,27 @@ import butterknife.ButterKnife;
  * Created by gleb on 8/16/17.
  */
 
-public class MusicRecycleList extends RecyclerView.Adapter<MusicRecycleList.ViewHolder>{
+public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.ViewHolder>{
 
     private List<GitHubItemModel> searchModels = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
 
     @Inject
-    public MusicRecycleList() { }
+    public RecycleListAdapter() { }
 
     public void addAll(List<GitHubItemModel> searchModels) {
         this.searchModels = searchModels;
     }
 
     @Override
-    public MusicRecycleList.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_music, parent, false);
-        MusicRecycleList.ViewHolder pvh = new MusicRecycleList.ViewHolder(v);
+        RecycleListAdapter.ViewHolder pvh = new RecycleListAdapter.ViewHolder(v);
         return pvh;
     }
 
     @Override
-    public void onBindViewHolder(final MusicRecycleList.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecycleListAdapter.ViewHolder holder, final int position) {
         holder.title.setText(searchModels.get(position).getName());
     }
 
