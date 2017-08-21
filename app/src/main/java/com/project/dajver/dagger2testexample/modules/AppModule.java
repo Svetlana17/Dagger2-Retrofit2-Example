@@ -31,7 +31,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    FetchedDataPresenterImpl provideFetchedData() {
+    protected FetchedDataPresenterImpl provideFetchedData() {
         return new FetchedDataPresenterImpl();
     }
 }
