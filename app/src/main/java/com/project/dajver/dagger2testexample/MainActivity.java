@@ -20,6 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.project.dajver.dagger2testexample.SecondActivity.EXTRA_POSITION;
+
 public class MainActivity extends AppCompatActivity implements Callback<GitHubModel>,
         MusicRecycleList.OnItemClickListener {
 
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GitHubMo
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+        intent.putExtra(EXTRA_POSITION, position);
         startActivity(intent);
     }
 }
